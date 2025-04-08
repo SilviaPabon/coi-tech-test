@@ -1,0 +1,87 @@
+﻿@page "/Products/create"
+@using Client.Models
+
+<h3>Create</h3>
+
+<EditForm Model="@ProductData" OnValidSubmit="HandleValidSubmit">
+    <div class="row mb-3">
+        <label class="col-md-4 col-form-label">Name</label>
+        <div class="col-md-8">
+            <input class="form-control" @bind="ProductData.Name" />
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <label class="col-md-4 col-form-label">Description</label>
+        <div class="col-md-8">
+            <input class="form-control" @bind="ProductData.Description" />
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <label class="col-md-4 col-form-label">Price</label>
+        <div class="col-md-8">
+            <input class="form-control" type="number" step="0.01" @bind="ProductData.Price" />
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <label class="col-md-4 col-form-label">Status</label>
+        <div class="col-md-8">
+            <input class="form-check-input" type="checkbox" @bind="ProductData.Status" />
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <label class="col-md-4 col-form-label">Image</label>
+        <div class="col-md-8">
+            <InputFile OnChange="HandleImageUpload" />
+        </div>
+    </div>
+
+    <button class="btn btn-primary" type="submit">Save</button>
+</EditForm>
+
+@inject HttpClient Http
+@code {
+    private ProductDto ProductData = new();
+
+    private async Task HandleImageUpload(InputFileChangeEventArgs e)
+    {
+        ProductData.Imagen = e.File;
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        if (ProductData.Imagen is null)
+        {
+            //
+            return;
+        }
+
+        var formData = new MultipartFormDataContent();
+        formData.Add(new StringContent(ProductData.Name), "Name");
+        formData.Add(new StringContent(ProductData.Description), "Description");
+        formData.Add(new StringContent(ProductData.Price.ToString(System.Globalization.CultureInfo.InvariantCulture)), "Price");
+        formData.Add(new StringContent(ProductData.Status.ToString()), "Status");
+
+        // Agregar el archivo
+        var stream = ProductData.Imagen.OpenReadStream(maxAllowedSize: 10_000_000); // 10 MB
+        var fileContent = new StreamContent(stream);
+        fileContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(ProductData.Imagen.ContentType);
+
+        formData.Add(fileContent, "Imagen", ProductData.Imagen.Name);
+
+        var response = await Http.PostAsync("http://localhost:5062/api/Products", formData);
+
+        if (response.IsSuccessStatusCode)
+        {
+            
+        }
+        else
+        {
+            var error = await response.Content.ReadAsStringAsync();
+            Console.WriteLine($"Error al guardar producto: {error}");
+        }
+    }
+}
