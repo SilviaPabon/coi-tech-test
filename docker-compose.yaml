@@ -1,14 +1,22 @@
 services:
   sqlserver:
-    image: mcr.microsoft.com/mssql/server:2022-latest
-    container_name: sqlserver-dev
+    build:
+      context: ./docker/sqlserver
     environment:
-      SA_PASSWORD: "temPass#"
-      ACCEPT_EULA: "Y"
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=temPass#
+      - MSSQL_PID=Developer
+      - MSSQL_SA_PASSWORD=temPass#
     ports:
       - "1433:1433"
     volumes:
-      - sql_data:/var/opt/mssql
+      - sqlserver_data:/var/opt/mssql
+    networks:
+      - app_network
+
+networks:
+  app_network:
+    driver: bridge
 
 volumes:
-  sql_data:
+  sqlserver_data:
