@@ -57,3 +57,7 @@ Una vez que veas el mensaje "Configuration completed" en los logs, tu base de da
    [# - Ejecuta las migraciones para crear la base de datos (si usas Entity Framework).]: #
    [#- Presiona `F5` o usa `dotnet run` para iniciar la API.]: #
 
+### Advertencia
+
+El guardado de imagenes en local es exclusivamente para pruebas de desarrollo, la buena práctica es guardarlas a nivel externo.
+

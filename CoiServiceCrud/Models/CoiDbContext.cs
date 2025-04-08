@@ -17,6 +17,8 @@ public partial class CoiDbContext : DbContext
 
     public virtual DbSet<Product> Products { get; set; }
 
+    public virtual DbSet<ImageProduct> ImageProducts { get; set; }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         => optionsBuilder.UseSqlServer("Server=localhost;Database=CoiDB;User Id=sa;Password=temPass#;TrustServerCertificate=True;");
 

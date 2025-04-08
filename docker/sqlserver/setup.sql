@@ -23,6 +23,19 @@ BEGIN
 END
 GO
 
+IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'ImageProducts')
+BEGIN
+    CREATE TABLE ImageProducts (
+        id INT IDENTITY(1,1) PRIMARY KEY,
+        productId INT NOT NULL,
+        url NVARCHAR(MAX) NOT NULL,
+        dateCreation DATETIME2 DEFAULT GETDATE(),
+        dateUpdate DATETIME2 DEFAULT GETDATE(),
+        CONSTRAINT FK_ImageProducts_Products FOREIGN KEY (productId) REFERENCES Products(id)
+    );
+END
+GO
+
 -- Este bloque se ejecutará solo en desarrollo para popular la base de datos
 -- Cambiar la variable @IsDevelopment a 0 para entorno de producción
 DECLARE @IsDevelopment BIT = 1;
