@@ -11,6 +11,32 @@
 
 ## ▶️ Cómo ejecutar el proyecto
 
+### 🐳 docker-compose para desarrollo (WARNING)
+
+Dado que se está en un entorno de pruebas, el contenedor corre con el usuario sa solo para facilitar el desarrollo.
+
+En producción, se debe crear un usuario específico con permisos mínimos.
+
+Estructura de archivos docker folder:
+
+Dockerfile - Configuración del contenedor
+entrypoint.sh - Script de punto de entrada
+configure-db.sh - Script para verificar la base de datos y ejecutar scripts SQL
+setup.sql - Script SQL para crear base de datos
+docker-compose.yml - Configuración de Docker Compose
+
+### Construir y ejecutar el contenedor
+```bash
+docker-compose up
+```
+También puedes usar la opción -d para ejecutar en segundo plano:
+```bash
+docker-compose up -d
+```
+
+### Verificar la instalación
+Una vez que veas el mensaje "Configuration completed" en los logs, tu base de datos está lista para usar.
+
 ### Backend (API)
 1. **Requisitos:**
    - Tener instalado [.NET 8 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/8.0)
@@ -30,8 +56,3 @@ dotnet build
 dotnet run
 ```
 
-### 🐳 docker-compose (WARNING)
-
-Dado que se está en un entorno de pruebas, el contenedor corre con el usuario sa solo para facilitar el desarrollo.
-
-En producción, se debe crear un usuario específico con permisos mínimos.
