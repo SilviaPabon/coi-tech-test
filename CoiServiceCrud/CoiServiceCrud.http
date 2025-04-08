@@ -1,0 +1,6 @@
+@CoiServiceCrud_HostAddress = http://localhost:5062
+
+GET {{CoiServiceCrud_HostAddress}}/P/
+Accept: application/json
+
+###
