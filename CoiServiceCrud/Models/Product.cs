@@ -13,7 +13,9 @@ public partial class Product
 
     public decimal Price { get; set; }
 
-    public DateTime DateCreation { get; set; }
+    public DateTime DateCreation { get; set; } = DateTime.UtcNow;
+
+    public DateTime DateUpdate { get; set; } = DateTime.UtcNow;
 
     public bool Status { get; set; }
 }

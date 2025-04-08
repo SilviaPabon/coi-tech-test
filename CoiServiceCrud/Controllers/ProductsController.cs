@@ -55,9 +55,14 @@ namespace CoiServiceCrud.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateProducto(int id, [FromBody] Product product)
         {
-            if (id != product.Id) return BadRequest();
-
-            _context.Entry(product).State = EntityState.Modified;
+            Product productUpdate = await _context.Products.FindAsync(id);
+            if (productUpdate == null)
+                return NotFound();
+            productUpdate.Name = product.Name;
+            productUpdate.Description = product.Description;
+            productUpdate.Price = product.Price;
+            productUpdate.Status = product.Status;
+            _context.Entry(productUpdate).State = EntityState.Modified;
             await _context.SaveChangesAsync();
 
             return NoContent();
@@ -74,6 +79,23 @@ namespace CoiServiceCrud.Controllers
             await _context.SaveChangesAsync();
 
             return NoContent();
+        }
+
+        // GET: api/products/order/price
+        [HttpGet("order/price")]
+        public async Task<IActionResult> GetProductsOrderByPrice()
+        {
+            Response res = new Response();
+            var products = await _context.Products
+                .OrderBy(p => p.Price)
+                .ToListAsync();
+            if (products == null)
+                return NotFound();
+
+            res.Success = 1;
+            res.Data = products;
+
+            return Ok(res);
         }
     }
 }

@@ -16,7 +16,8 @@ BEGIN
         name NVARCHAR(150) NOT NULL,
         description NVARCHAR(MAX) NULL,
         price DECIMAL(18, 2) NOT NULL,
-        dateCreation DATETIME DEFAULT GETDATE(),
+        dateCreation DATETIME2 DEFAULT GETDATE(),
+        dateUpdate DATETIME2 DEFAULT GETDATE(),
         status BIT DEFAULT 1
     );
 END

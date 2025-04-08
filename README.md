@@ -44,15 +44,16 @@ Una vez que veas el mensaje "Configuration completed" en los logs, tu base de da
 
 2. **Pasos:**
    - Clona el repositorio.
-   - Abre el proyecto en Visual Studio 2022+ o VS Code con las respectivas extensiones de C#.
+   - Dentro del folder CoiServiceCrud ejecuta
+      ```bash
+      dotnet restore
+      dotnet build
+      dotnet run
+      ```
+
+   [- Abre el proyecto en Visual Studio 2022+ o VS Code con las respectivas extensiones de C#.]: #
 
    [- Configura la cadena de conexión a tu SQL Server en `appsettings.json`.]: #
    [# - Ejecuta las migraciones para crear la base de datos (si usas Entity Framework).]: #
    [#- Presiona `F5` o usa `dotnet run` para iniciar la API.]: #
-
-```bash
-dotnet restore
-dotnet build
-dotnet run
-```
 
