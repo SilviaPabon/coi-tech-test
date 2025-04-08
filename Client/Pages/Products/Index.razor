@@ -1,0 +1,49 @@
+﻿@page "/Products"
+@using Client.Models
+
+<h1 class="text-center mb-3">List of Products</h1>
+<a class="btn btn-primary mb-3" href="/api/Products/">Create new product</a>
+
+@if(products == null)
+{
+	<p><em>Loading...</em></p>
+}
+else
+{
+	<table class="table">
+		<thead>
+			<tr>
+				<th>name</th>
+				<th>name</th>
+				<th>name</th>
+				<th>name</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var product in products)
+			{
+			<tr>
+				<td>@product.Id</td>
+				<td>@product.Description</td>
+				<td>@product.Price</td>
+					<td>@product.DateCreation ToShortDateString()</td>
+			
+				<td>@product.Status</td>
+			
+				<td style="white-space: nowrap">
+				<a class="btn_btn-primary btn-sm" href="/Products/Edit/@product.Id">Edit</a> <a class="btn btn-danger btn-sm" href="/Products/Delete/@product.Id">Delete</a>
+				</td>
+			</tr>
+			}
+		</tbody>
+	</table>
+}
+
+@code {
+	private List<Product>? products;
+
+	protected override async Task OnInitializedAsync()
+	{
+		products = await HttpClientJsonExtensions.GetFromJsonAsync<List<Product>>("http://localhost:5062/api/Products/");
+	}
+}
